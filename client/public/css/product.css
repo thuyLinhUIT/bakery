@@ -1,0 +1,34 @@
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  row-gap: 2rem;
+}
+
+.product-item {
+  width: 250px;
+  background-color: green;
+}
+
+.product-item img {
+  width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .products {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0;
+  }
+
+  .product-item {
+    width: 200px;
+    justify-self: center;
+  }
+}

@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    font-size: 16px;
+}
+
+body {
+    background-color: #eee;
+}
+
+:root {
+  --offwhite: white;
+  --darkblue: rgba(50,50,60,90%)
+}
+
+section:nth-child(2) {
+  margin-top: 53px;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0
+}
+
+.opening-text {
+    width: 100%;
+    background-color: #ef5518;
+}
+
+
+.navbar ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.opening-text-button {
+    width: 100%;
+    font-size: 1.25rem;
+    padding: 0.7rem;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.userBackground {
+  visibility: hidden;
+  position: fixed;
+  top:0;
+  bottom:0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.userFormWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.userFormPanel {
+  width: 400px;
+  height: 60%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3); 
+  border-radius: 7px;
+  background-color: #ffddd2 !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 0.25s ease-in;
+  color: #006D77;
+}
+
+.userFormPanel form label {
+  color: #83C5BE !important;
+}
+.userFormPanel form i {
+  color: #83C5BE !important;
+}
+
+
+.userFormPanel .userCloseButton {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  z-index: 5
+}
+
+.signinForm,
+.signupForm {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.signinForm  .signup-navigator,
+.signupForm  .signin-navigator {
+  margin-bottom: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.warning-text {
+  color: red;
+  font-size: 1.8rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.signinForm  .signup-navigator span,
+.signupForm  .signin-navigator span{
+  font-size: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signinForm > .signup-navigator button,
+.signupForm > .signin-navigator button {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+
+.signinForm .decoration,
+.signupForm .decoration {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 5%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.signinForm .decoration  .decoration-child,
+.signupForm .decoration  .decoration-child {
+  position: absolute;
+  height: 100%;
+  width: 120%;
+  top: 20%;
+  background-color: white;
+  border-radius: 20px;
+  transform: rotate(10deg);
+  overflow-y: scroll;
+  box-shadow: 0 0 3px rgba(255,160,0,0.6);
+}
+
+.signinForm > .formTitle,
+.signupForm > .formTitle {
+  margin: 30px auto 50px;
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 10px;
+  font-size: 2rem;
+}
+
+.signinForm > .user-wrapper,
+.signupForm > .user-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 73%;
+    overflow-y: scroll;
+    bottom: 0;
+    z-index: 3;
+}
+
+.signupForm {
+  display: none;
+}
+
+.signupForm > .user-wrapper::-webkit-scrollbar,
+.signinForm > .user-wrapper::-webkit-scrollbar{
+  display: none;
+}
+
+
+.userForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+    align-items: center;
+  gap: 2rem;
+  width: 60%;
+  margin: 30px auto 50px;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.userForm button {
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #006D77;
+  padding: 10px;
+  text-align: center; 
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+  width: 100%;
+}
+
+.userForm button:hover {
+  color: white
+}
+
+.userForm button::before {
+  border: 1.5px solid #006D77;
+  border-radius: 8px;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+   transition: opacity 0.8s, border 0.5s
+}
+
+.userForm button:hover::before {
+  opacity: 0;
+}
+
+.userForm button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 200px;
+  transform:  translate(-20px, -80px) scale(0.1);
+  transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
+  border-color: transparent;
+  z-index: -1;
+  opacity: 0;
+  border-radius: 50%;
+    background-color: #006D77;
+}
+
+.userForm button:hover::after {
+  transform:  translate(-20px, -80px) scale(1);
+    background-color: #006D77;
+    opacity: 1;
+}
+
+.userForm > .inputItem,
+.userForm > .inputItem{
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.userForm > .inputItem > label
+{
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  z-index: -1;
+  transition: 0.1s ease-out;
+  color: rgba(0,0,0,0.3)
+}
+
+
+.userForm > .userInput > label + i,
+.userForm > .pwdInput > label + i {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+  z-index: -1;
+  transition: 0.1s ease-out;
+  color: rgba(0,0,0,0.3);
+  font-size: 0.9rem;
+}
+
+
+.userForm div input {
+  padding: 0.5rem 1.8rem 0.5rem 3rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px rgba(0,0,0,0.3);
+  background-color: transparent;
+  width: 100%;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.userForm div input:-webkit-autofill {
+  z-index: 1;
+}
+
+.userForm > div input:focus + label,
+.userForm > div input:not(:placeholder-shown) + label
+{
+  top: 0;
+  left: 20px;
+  font-size: 1.2rem;
+  background-color: white;
+  z-index: 2;
+}
+
+form :is(.userInput, .pwdInput) i {
+  font-size: 1.5rem !important;
+}
+

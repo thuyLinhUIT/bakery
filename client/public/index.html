@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/index.css" />
+  <link rel="stylesheet" href="./css/navHandler.css">
+  <link rel="stylesheet" href="./css/aboutUs.css">
+  <link rel="stylesheet" href="./css/menu.css">
+  <link rel="stylesheet" href="./css/contactFooter.css">
+  <link rel="stylesheet" href="./css/cart.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
+    integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+  <script defer type="module" src="./js/navHandler.js"></script>
+  <script defer type="module" src="./js/aboutUsHandler.js"></script>
+  <script defer type="module" src="./js/menuHandler.js"></script>
+  <script defer type="module" src="./js/cartHandler.js"></script>
+  <script defer type="module" src="./js/index.js"></script>
+  <script defer type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script defer type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+    integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script defer src="./js/slider.js"></script>
+
+  <script src="./js/userForm.js"></script>
+</head>
+
+<body>
+  <!-- <script> -->
+  <!--   function topFunction() { -->
+  <!--     document.body.scrollTop = 0; -->
+  <!--     document.documentElement.scrollTop = 0; -->
+  <!--   } -->
+  <!---->
+  <!-- </script> -->
+
+  <!-- Header Section   -->
+  <section id="header">
+    <nav>
+
+      <!-- Chi linh -->
+
+      <div class="shortNavContainer">
+        <input type="checkbox" id="menu" />
+        <label class="shortNavMenuBtn" for="menu"><i style="pointer-events: none" class="fa-solid fa-bars"></label></i>
+        <div class="nav-logo"><img src="./images/bakery.png" alt=""></div>
+        <div class="navContainer">
+          <ul>
+            <li id="nav-home">
+              Thực đơn
+            </li>
+            <li data-navigator="man">
+              <div class="nav-icon"><i class="fa-solid fa-pizza-slice"></i></div>
+              <div class="nav-item">Bánh Mặn</div>
+            </li>
+            <li data-navigator="ngot">
+              <div class="nav-icon"><i class="fa-solid fa-cake-candles"></i></div>
+              <div class="nav-item">Bánh Ngọt</div>
+            </li>
+            <li data-navigator="mi">
+              <div class="nav-icon"><i class="fa-solid fa-bread-slice"></i></div>
+              <div class="nav-item">Bánh Mì</div>
+            </li>
+            <li class="user-login-logout">
+              <div class="user-login">Đăng nhập</div>
+              <div class="user-logout">
+                <img src="./images/default-user-image.png" alt="">
+                <div class="user-logout-btn">
+                  <div class="user-name">Nguyễn Văn A</div>
+                  <i class="fa-solid fa-sign-out"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="ngot">
+            <div class="title">
+              <div class="back-icon"><i class="fa-solid fa-arrow-left"></i></div>
+              <h1>Bánh Ngọt</h1>
+            </div>
+            <li><a href="#cakes">Bánh kem</a></li>
+            <li><a href="#cakes">Macaron</a></li>
+            <li><a href="#cakes">Donut</a></li>
+          </ul>
+          <ul class="man">
+            <div class="title">
+              <div class="back-icon"><i class="fa-solid fa-arrow-left"></i></div>
+              <h1>Bánh Mặn</h1>
+            </div>
+            <li><a href="#cakes">Hamburger</a></li>
+            <li><a href="#cakes">Pizza</a></li>
+            <li><a href="#cakes">Sandwich</a></li>
+          </ul>
+          <ul class="mi">
+            <div class="title">
+              <div class="back-icon"><i class="fa-solid fa-arrow-left"></i></div>
+              <h1>Bánh Mì</h1>
+            </div>
+            <li><a href="#cakes">Bánh mì đen</a></li>
+            <li><a href="#cakes">Bánh mì trắng</a></li>
+            <li><a href="#cakes">Bánh mì nguyên hạt</a></li>
+          </ul>
+        </div>
+        <label class="shortNavMenuBtn cart-icon"><i style="pointer-events: none"
+            class="fa-solid fa-cart-shopping"></i><span class="cart-count">1</span></label>
+      </div>
+
+      <div class="longNavContainer">
+        <div class="nav-logo"><img src="./images/bakery.png" alt=""></div>
+        <ul class="longNav">
+          <li class="longNav-item">
+            <a href="#cakes">Bánh Ngọt</a>
+            <ul>
+              <li><a href="#cakes">Bánh kem</a></li>
+              <li><a href="#cakes">Macaron</a></li>
+              <li><a href="#cakes">Donut</a></li>
+            </ul>
+          </li>
+          <li class="longNav-item">
+            <a href="#cakes">Bánh Mặn</a>
+            <ul>
+              <li><a href="#cakes">Hamburger</a></li>
+              <li><a href="#cakes">Pizza</a></li>
+              <li><a href="#cakes">Sandwich</a></li>
+            </ul>
+          </li>
+          <li class="longNav-item">
+            <a href="#cakes">Bánh Mì</a>
+            <ul>
+              <li><a href="#cakes">Bánh mì đen</a></li>
+              <li><a href="#cakes">Bánh mì trắng</a></li>
+              <li><a href="#cakes">Bánh mì nguyên hạt</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="login-button">
+          <div onclick="toggleUserForm()" id="login-btn">
+            Đăng nhập
+          </div>
+
+
+          <label class="longNavMenuBtn cart-icon"><i style="pointer-events: none"
+              class="fa-solid fa-cart-shopping"></i><span class="cart-count">1</span></label>
+        </div>
+
+
+        <div class="logged-in">
+          <div class="user">
+            <div class="cart-count longNavCount"></div>
+            <img src="./images/default-user-image.png" alt="" class="user-avatar">
+            <div class="user-name">Nguyễn Văn A</div>
+            <ul class="user-info">
+              <li>
+                <div class="cart-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                <div class="user-info-cart">Giỏ hàng</div>
+                <div class="cart-count"></div>
+              </li>
+              <li>
+                <div class="cart-icon"><i class="fa-solid fa-sign-out"></i></div>
+                <div class="user-info-cart">Đăng xuất</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Dat Truong -->
+    <!-- Cart -->
+    <div class="cartBackground">
+      <div class="cartPanel">
+        <div class="cartCloseBtn"><i class="fa-solid fa-xmark"></i></div>
+        <h2>Giỏ hàng</h2>
+        <div class="cartDetails">
+          <div class="cartHasProduct">
+            <div class="cart-product-container"></div>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Total:</th>
+                  <td class="totalPrice">1234</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="cartBtns">
+              <button class="continue">Tiếp tục mua sắm</button>
+              <button onclick="eraseCart()" class="eraseCart">Xóa giỏ hàng</button>
+              <button class="thanhtoan">Thanh toán</button>
+            </div>
+          </div>
+
+          <div class="cartEmpty active">
+            <div class="emptyCartImg"><img src="./images/ice-cream-1544475_640.png" alt=""></div>
+            <h3>Giỏ hàng trống</h3>
+            <button class="continue">Quay về cửa hàng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Đăng nhập / đăng xuất -->
+    <!-- User Form -->
+    <div class="userBackground">
+      <div class="userFormWrapper">
+        <div class="userFormPanel">
+          <div onclick="toggleUserForm()" class="userCloseButton"><i class="fa-solid fa-xmark"></i></div>
+
+          <div class="signinForm">
+            <div class="user-wrapper">
+              <form class="userForm">
+                <div class="userInput inputItem">
+                  <input type="text" name="username" placeholder="">
+                  <label>Tên đăng nhập</label>
+                  <i class="fa-regular fa-user"></i>
+                </div>
+                <div class="pwdInput inputItem">
+                  <input type="password" name="password" placeholder="" />
+                  <label>Mật khẩu</label>
+                  <i class="fa-solid fa-key"></i>
+                </div>
+                <button type="submit">Đăng nhập</button>
+                <div class="signup-navigator">
+                  <div style="color: #83C5BE">Chưa có tài khoản?</div>
+                  <span style="color: #ef5518" onclick="toSignUpForm()">
+                    Đăng ký
+                  </span>
+                </div>
+                <p class="warning-text"></p>
+              </form>
+            </div>
+            <h1 class="formTitle">Đăng nhập</h1>
+            <div class="decoration">
+              <div class="decoration-child">
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="signupForm">
+            <h1 class="formTitle">Đăng ký để đặt bánh</h1>
+            <div class="user-wrapper">
+              <form class="userForm register">
+                <div class="userInput inputItem">
+                  <input type="text" name="username" placeholder="">
+                  <label>Tên đăng nhập</label>
+                </div>
+                <div class="pwdInput inputItem">
+                  <input type="password" name="password" placeholder="" />
+                  <label>Mật khẩu</label>
+                </div>
+                <div class="confirmPwdInput inputItem">
+                  <input type="password" name="confirmPassword" placeholder="" />
+                  <label>Nhập lại mật khảu</label>
+                </div>
+                <div class="nameInput inputItem">
+                  <input type="text" name="name" placeholder="" />
+                  <label>Tên người dùng</label>
+                </div>
+                <button type="submit">Đăng ký</button>
+                <p class="warning-text"></p>
+                <div class="signin-navigator">
+                  <div style="color: #83C5BE;">Đã có tài khoản?</div>
+                  <span style="color: #ef5518" onclick="toSignInForm()">
+                    Đăng nhập
+                  </span>
+                </div>
+              </form>
+            </div>
+            <div class="decoration">
+              <div class="decoration-child"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex" class="cakes"></div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- Bao Minh -->
+  <!-- Product -->
+  <section id="product">
+    <div class="home" id="home">
+      <div class="hero">
+        <img src="./images/bg_4.png" alt="" class="bg_img">
+        <h2>Hamily Bakery xin chào!</h2>
+        <div id="hero_p">
+          <p><br> Chúng tôi đã có mặt trên thị trường trong suốt 10 năm qua và đã xây dựng danh
+            tiếng vô cùng uy tín trong lĩnh vực bánh ngọt và thực phẩm chất lượng. <br />Chúng tôi tự hào mang đến cho
+            khách hàng những món bánh ngon<br> và độc đáo, được làm từ những nguyên liệu tươi ngon và tỉ mỉ trong từng
+            chi tiết.</p>
+        </div>
+        <a href="#aboutUs" class="btn info">Tìm hiểu thêm
+          <i class="fa-solid fa-angle-right angle1"></i>
+          <i class="fa-solid fa-angle-right"></i>
+        </a>
+      </div>
+    </div>
+
+
+
+
+
+
+    <!-- Chị hân -->
+    <!-- Image Slider -->
+    <section>
+      <h2 class="title" style="margin-bottom: 2rem">Nổi bật</h2>
+      <div class="imageSlider">
+        <div class="image">
+          <img src="./images/eclair-3366430_1280.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/pranjall-kumar-lRAApjOIaFs-unsplash.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/macarons-2548827_1280.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/shayna-douglas-nOCkBWgsu-c-unsplash.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/pizza-3007395_1280.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/the-matter-of-food-loeyDIdEW_w-unsplash.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/jean-claude-attipoe-EtJiql0AdwI-unsplash.jpg" alt="" />
+        </div>
+        <div class="image">
+          <img src="./images/mohamed-hassouna-N4gtuEZ5gWc-unsplash.jpg" alt="" />
+        </div>
+      </div>
+
+    </section>
+
+
+
+
+
+
+    <!-- Bảo Minh -->
+    <div class="cakes" id="cakes">
+      <h2 class="title">Thực đơn</h2>
+
+      <div class="tab_box">
+        <button class="tab_btn">Bánh ngọt</button>
+        <button class="tab_btn">Bánh mặn</button>
+        <button class="tab_btn">Bánh mì</button>
+        <div class="line"></div>
+      </div>
+
+      <!-- <nav style="padding-top: 30px;">
+            <ul style="display: flex; justify-content: space-around; margin-left: -60px;">
+                <li><a class="tablink" onclick="openCity(event, 'London')">Bánh ngọt</a></li>
+                <li><a href="#">Bánh mặn</a></li>
+                <li><a href="#">Bánh mì</a></li>
+            </ul>
+        </nav> -->
+
+      <!-- Bánh ngọt -->
+      <div class="wrapper banhngot" data-type="Bánh ngọt">
+        <!-- Item 1 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3 class="name">Macarons</h3>
+          <div class="price">50.000 VNĐ</div>
+          <div class="cart-edit">
+            <button class="cart-edit-btn">Chỉnh sửa</button>
+            <span class="cart-delete-btn"><i class="fa-solid fa-trash"></i></span>
+          </div>
+          <button class="cart-btn">Thêm giỏ hàng</button>
+        </div>
+        <!-- Item 2 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Donut</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+        <!-- Item 3 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Bánh kem</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+        <div class="cake-add-container">
+          <div class="cake-add">
+            +
+          </div>
+        </div>
+      </div>
+
+      <!-- Bánh mặn -->
+      <div class="wrapper banhman" data-type="Bánh mặn">
+        <!-- Item 1 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Pizza</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+        <!-- Item 2 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Hamburger</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+        <!-- Item 3 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Sandwich</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+      </div>
+
+      <!-- Bánh mì -->
+      <div class="wrapper banhmi" data-type="Bánh mì">
+        <!-- Item 1 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Bánh mì trắng</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+        <!-- Item 2 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Bánh mì đen</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+        <!-- Item 3 -->
+        <div class="cake-card">
+          <img src="./images/macarons.jpg" alt="">
+          <h3>Bánh mì nguyên cám</h3>
+          <div class="price">50.000 VNĐ</div>
+          <a href="" class="btn">Thêm giỏ hàng</a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- Anh Minh -->
+  <!-- About Us  -->
+  <section id="aboutUs">
+    <h2 class="about-us-title title">Về chúng tôi</h2>
+    <div class="about-us">
+      <div class="card">
+        <div class="card-glow-effect">
+          <img src="./images/chihan3.jpg" alt="something" class="card-img" />
+          <div class="card-content">
+            <h5 class="card-title">Lê Ngọc Hân</h5>
+            <p class="card-text" style="color: #ef5518">Giám đốc</p>
+          </div>
+
+          <svg class="card-glow-container">
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-blur" />
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-line" />
+          </svg>
+
+        </div>
+        <img src="./images/chihan-removebg-preview.png" alt="something" class="member" />
+        <a class="card-more-info" href="#"><i class="fa-solid fa-info"></i></a>
+      </div>
+
+
+      <div class="card">
+        <div class="card-glow-effect">
+          <img src="./images/chilinh.jpg" alt="something" class="card-img" />
+          <div class="card-content">
+            <h5 class="card-title">Đinh Hoàng Thùy Linh</h5>
+            <p class="card-text" style="color: #ef5518">Bếp trưởng</p>
+          </div>
+
+          <svg class="card-glow-container">
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-blur" />
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-line" />
+          </svg>
+
+        </div>
+        <img src="./images/chilinh-appear-removebg-preview.png" alt="something" class="member" />
+        <a class="card-more-info" href="#"><i class="fa-solid fa-info"></i></a>
+      </div>
+
+      <div class="card">
+        <div class="card-glow-effect">
+          <img src="chef.jpg" alt="something" class="card-img" />
+          <div class="card-content">
+            <h5 class="card-title">Nguyễn Hoàng Minh</h5>
+            <p class="card-text">Bếp phó</p>
+          </div>
+
+          <svg class="card-glow-container">
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-blur" />
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-line" />
+          </svg>
+
+        </div>
+        <img src="./images/baominh-removebg-preview.png" alt="something" class="member" />
+        <a class="card-more-info" href="#"><i class="fa-solid fa-info"></i></a>
+      </div>
+
+      <div class="card">
+        <div class="card-glow-effect">
+          <img src="chef.jpg" alt="something" class="card-img" />
+          <div class="card-content">
+            <h5 class="card-title">Dương Bảo Minh</h5>
+            <p class="card-text">Phục vụ</p>
+          </div>
+
+          <svg class="card-glow-container">
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-blur" />
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-line" />
+          </svg>
+
+        </div>
+        <img src="./images/baominh-removebg-preview.png" alt="something" class="member" />
+        <a class="card-more-info" href="#"><i class="fa-solid fa-info"></i></a>
+      </div>
+
+      <div class="card">
+        <div class="card-glow-effect">
+          <img src="./images/dattruong-bg.jpg" alt="something" class="card-img" />
+          <div class="card-content">
+            <h5 class="card-title">Trương Quang Đạt</h5>
+            <p class="card-text">Bồi bàn</p>
+          </div>
+
+          <svg class="card-glow-container">
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-blur" />
+            <rect pathLength="100" stroke-linecap="round" class="card-glow-line" />
+          </svg>
+
+        </div>
+        <img src="./images/dattruong.png" alt="something" class="member" />
+        <a class="card-more-info" href="#"><i class="fa-solid fa-info"></i></a>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+  <!-- Chị hân -->
+  <!-- Contact -->
+
+  <section class="contact" id="contactUs">
+    <div class="contactTitle">
+      <h3 class="title">Thông tin liên hệ</h3>
+      <p>
+        Chân thành cảm ơn quý khách vì đã tin tưởng và ủng hộ dịch vụ của chúng tôi trong thời gian qua!
+        <br />
+        Nếu có bất kỳ vấn đề gì, xin đừng ngần ngại và liên hệ ngay cho chúng tôi.
+
+      </p>
+    </div>
+    <div class="contactItem">
+      <div class="contactMap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125404.23327011883!2d106.70744820815283!3d10.820319193270034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d85e042bf04b%3A0xbb26baec1664394d!2zVGjhu6cgxJDhu6ljLCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1696175319796!5m2!1svi!2s"
+          width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="contactForm">
+        <form action="">
+          <input type="text" name="username" placeholder="Tên Khách Hàng" />
+          <input type="email" name="email" placeholder="Email" />
+          <textarea placeholder="Nhập lời nhắn tại đây" name="description" id="" cols="30" rows="10"></textarea>
+          <button class="btnContact">GỬI NGAY</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <section id="footer">
+    <footer>
+      <div class="footerContent">
+        <div class="copyRight">
+          <p>
+            © 2023 Bakery. All rights reserved. Designed by
+            <a href="#">Hamili Bakery</a>
+          </p>
+        </div>
+        <div class="contactIcons">
+          <a href="https://www.facebook.com/" class="facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://twitter.com/" class="twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://mail.google.com/mail/" class="gmail">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+          <a href="https://www.linkedin.com/" class="linkedin">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+        <!-- move top -->
+        <button onclick="topFunction()" id="movetop" title="Go to top">
+          <i class="fa fa-arrow-up"></i>
+        </button>
+        <!-- /move top -->
+      </div>
+    </footer>
+
+
+  </section>
+
+</body>
+
+</html>

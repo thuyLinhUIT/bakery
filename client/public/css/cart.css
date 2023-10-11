@@ -1,0 +1,273 @@
+.cartBackground {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+  transition:0.5s ease-in;
+}
+
+.cartBackground.active {
+  opacity: 1;
+  z-index: 9;
+}
+
+.cartPanel {
+  overflow-y: scroll;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50vw;
+  height: 85vh;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in;
+}
+
+.cartPanel.active {
+  transform: translateX(0);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  padding: 3rem;
+  background-color: #f7f7f7;
+  color: #006D77;
+}
+
+table th {
+  text-align: left;
+}
+
+table td {
+  text-align: right;
+}
+
+
+.cartDetails{
+  margin-top: 2rem;
+}
+
+.cartDetails .cartHasProduct {
+  display: none;
+}
+
+.cartDetails .cartHasProduct.active {
+  display: block;
+}
+
+.cartCloseBtn {
+  position: absolute;
+  top: 3rem;
+  left: 3rem;
+  cursor: pointer;
+  color: #006D77;
+}
+
+.cartCloseBtn i {
+  font-size: 2rem;
+}
+
+
+.cartDetails table{
+  margin-bottom: auto;
+}
+
+.cartDetails .totalPrice {
+  font-weight: bold;
+}
+
+.cart-product{
+  display: flex;
+  gap: 3rem;
+  border-bottom: 1px solid #006D77;
+  padding: 2rem;
+}
+.cart-product h3{
+  color: #006D77;
+}
+
+.cart-product .price {
+  font-family: "Lobster", cursive;
+}
+
+.cart-product :is(.name, .quantity-value) {
+  color: #E29578;
+}
+
+.cart-product :is(.sum-value, .price) {
+  color: #ef5518;
+}
+
+.cart-product img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 1rem;
+  flex: 1 0;
+}
+
+.cart-product-info {
+  flex: 3 0;
+}
+
+.cart-product-quantity {
+  flex: 2 0;
+  padding: 1rem;
+}
+.cart-product-quantity h3{
+  white-space: nowrap;
+}
+
+.cart-product-quantity .quantity {
+  margin-left: 5px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.cart-product-quantity .quantity-decr-btn, 
+.cart-product-quantity .quantity-incr-btn{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #006D77;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-product-quantity .sum-value{
+  padding: 1.5rem;
+  background-color: #f7f7f7;
+  display: inline-block;
+  border-radius: 10px;
+}
+
+.cart-product-delete {
+  cursor: pointer;
+  color: white;
+  padding: 1.5rem;
+  background-color: #ef5518;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.cart-product .info {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+
+.cartEmpty {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.cartEmpty.active {
+  display: flex;
+}
+
+.emptyCartImg img{
+  width: 200px;
+}
+
+.cartEmpty h3 {
+  font-weight: 500;
+  font-size: 3rem;
+  padding: 3rem;
+  user-select: none;
+}
+
+.cartPanel h2 {
+  font-family: "Lobster", cursive;
+  padding: 2rem;
+}
+
+.cartEmpty .continue {
+  background-color: red;
+  color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.cartBtns {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.cartBtns > *:nth-child(2) {
+  margin-right: auto;
+}
+
+.cartBtns > button {
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.cartBtns > .continue {
+  background-color: #006D77;
+  color: #fff;
+}
+
+
+.cartBtns > .eraseCart {
+  background-color: #ef5518;
+  color: white;
+}
+
+.cartBtns > .thanhtoan {
+  background-color: #83C5BE;
+  color: white;
+}
+
+@media screen and (max-width: 600px) {
+  .cartPanel {
+    width: 100vw;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .cartPanel {
+    width: 80vw;
+  }
+}
+
+
+@media screen and (min-width: 864px) {
+  .cartPanel {
+    width: 70vw;
+  }
+}
+
+
+@media screen and (min-width: 1000px) {
+  .cartPanel {
+    width: 60vw;
+  }
+}
+
+
+@media screen and (min-width: 1200px) {
+  .cartPanel {
+    width: 50vw;
+  }
+}

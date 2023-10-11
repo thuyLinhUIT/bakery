@@ -1,0 +1,11 @@
+{
+    "dbName": "Bakery",
+    "dbConfig": {
+        "authentication": {
+            "options": {
+                "userName": "hello",
+                "password": ""
+            }
+        }
+    }
+}
