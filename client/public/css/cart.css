@@ -192,6 +192,7 @@ table td {
   font-size: 3rem;
   padding: 3rem;
   user-select: none;
+  color: #006D77;
 }
 
 .cartPanel h2 {
@@ -200,7 +201,7 @@ table td {
 }
 
 .cartEmpty .continue {
-  background-color: red;
+  background-color: #ef5518;
   color: white;
   padding: 2rem;
   border-radius: 10px;

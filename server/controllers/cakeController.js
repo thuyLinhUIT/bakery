@@ -64,23 +64,22 @@ exports.createCake = (req, res) => {
         message: "Error creating cake: " + err.message,
       });
     });
-  console.log(req.body);
 };
 
-exports.deleteCake = (req, res) => {
+exports.deleteCake = async (req, res) => {
   const cakeId = req.params.id;
-
-  Cake.destroy({
+  Cake.findByPk(cakeId).then(result => Cake.destroy({
     where: { cake_id: cakeId },
   })
     .then((num) => {
       if (num > 0)
-        res.json({
+        res.status(200).json({
           success: true,
           message: "Cake deleted successfully",
+          cake: result
         });
       else
-        res.json({
+        res.status(400).json({
           success: false,
           message: "Cake not found with id = " + cakeId,
         });
@@ -91,7 +90,7 @@ exports.deleteCake = (req, res) => {
         message: "Error deleting cake with id = " + cakeId,
         err: err.message,
       });
-    });
+    }));
 };
 
 exports.updateCake = (req, res) => {

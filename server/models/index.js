@@ -8,11 +8,11 @@ const sequelize = new Sequelize('Bakery', 'bakeryadmin', 'Hamili123', {
   dialect: 'mssql',
   port: 1433,
   trustServerCertificate: true,
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
+  // pool: {
+  //   max: 5,
+  //   min: 0,
+  //   idle: 10000
+  // },
   dialectOptions: {
     encrypt: true
   }

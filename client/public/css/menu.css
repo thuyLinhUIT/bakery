@@ -253,7 +253,7 @@ h2 {
 
 .cake-add-form {
   width: 400px;
-  height: 80vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -354,6 +354,15 @@ h2 {
 
 .cake-add:hover {
   background-color: #006D77;
+}
+
+.loading {
+  height: 70vh;
+  font-size: 4rem;
+  color: #006D77;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cake-card {

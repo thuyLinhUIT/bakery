@@ -1,12 +1,4 @@
 // Cake add 
-var thanhtoan = document.querySelector(".thanhtoan");
-thanhtoan.onclick = (e) => {
-  const cart = JSON.parse(localStorage.getItem("cart"));
-  e.preventDefault();
-  alert(`Thanh toán thành công ${cart.length} sản phẩm`);;
-  localStorage.removeItem("cart");
-  document.querySelector(".eraseCart").dispatchEvent(new Event("click"));
-}
 
 
 // login
@@ -88,90 +80,156 @@ window.onresize = (e) => {
   document.querySelector(".tab_btn.active").dispatchEvent(new Event("click"));
 }
 
+window.reloadCakes = async function reloadCakes(sweetCakes, saltCakes, breads, isAdmin) {
+  await cakeForUser(sweetCakes, isAdmin, "banhngot");
+  await cakeForUser(saltCakes, isAdmin, "banhman");
+  await cakeForUser(breads, isAdmin, "banhmi");
+}
 
 window.onload = async () => {
+
+  const { username, isAdmin } = checkUser();
+
+
+  // Add group id to Wrapper
+  const cakeWrappers = document.querySelectorAll(".wrapper");
+  const groupIds = await fetch("/group").then(res => res.json());
+
+  cakeWrappers.forEach((wrapper, index) => {
+    wrapper.setAttribute("id", groupIds[index].group_id);
+  })
+
+  var thanhtoan = document.querySelector(".thanhtoan");
+  thanhtoan.onclick = (e) => {
+    if (username) {
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      e.preventDefault();
+      alert(`Thanh toán thành công ${cart.length} sản phẩm`);;
+      localStorage.removeItem("cart");
+      document.querySelector(".eraseCart").dispatchEvent(new Event("click"));
+    } else {
+      alert("Hãy đăng nhập để thanh toán");
+    }
+  }
+
+
   // Chọn tab đầu tiên khi load trang
   document.querySelector(".tab_btn").dispatchEvent(new Event("click"));
 
-  const { isAdmin } = checkUser();
-  const sweetCakes = await fetch("/cake/group/G001").then(res => res.json())
-  const saltCakes = await fetch("/cake/group/G002").then(res => res.json())
-  const breads = await fetch("/cake/group/G003").then(res => res.json())
-  const allCakes = [...sweetCakes, ...saltCakes, ...breads];
-  console.log(allCakes)
+  var sweetCakes, saltCakes, breads, allCakes;
+
+  if (!localStorage.getItem("cakes")) {
+    sweetCakes = await fetch("/cake/group/G001").then(res => res.json())
+    saltCakes = await fetch("/cake/group/G002").then(res => res.json())
+    breads = await fetch("/cake/group/G003").then(res => res.json())
+    allCakes = [...sweetCakes, ...saltCakes, ...breads];
+    localStorage.setItem("cakes", JSON.stringify({ sweetCakes, saltCakes, breads }))
+    await reloadCakes(sweetCakes, saltCakes, breads, isAdmin);
+    // loadCartProduct();
+  } else {
+    const { sweetCakes, saltCakes, breads } = JSON.parse(localStorage.getItem("cakes"));
+    allCakes = [...sweetCakes, ...saltCakes, ...breads];
+    await reloadCakes(sweetCakes, saltCakes, breads, isAdmin);
+    // loadCartProduct();
+  }
+
   // Load cart
   checkCartInCache();
 
-  async function reloadCakes() {
-    const sweetCakes = await fetch("/cake/group/G001").then(res => res.json())
-    const saltCakes = await fetch("/cake/group/G002").then(res => res.json())
-    const breads = await fetch("/cake/group/G003").then(res => res.json())
-    await cakeForUser(sweetCakes, isAdmin, "banhngot");
-    await cakeForUser(saltCakes, isAdmin, "banhman");
-    await cakeForUser(breads, isAdmin, "banhmi");
-  }
-
-  await reloadCakes();
 
 
-  const removeBtns = document.querySelectorAll(".cart-delete-btn");
-  console.log(removeBtns)
-  removeBtns.forEach(btn => {
-    btn.onclick = (e) => {
-      if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-        fetch(`/cake/${e.target.parentNode.parentNode.id}`, {
-          method: "DELETE"
-        })
-      }
-    }
-  })
 
-  const cakeAddBtns = document.querySelectorAll(".cake-add");
-  cakeAddBtns.forEach(btn => {
-    btn.onclick = async (e) => {
-      e.target.parentNode.querySelector(".cake-add-formContainer").classList.add("active");
-      e.target.parentNode.querySelector("form").onsubmit = async (ev) => {
-        ev.preventDefault();
-        const cakeName = ev.target.querySelector("input[name=name]").value;
-        const cakePrice = ev.target.querySelector("input[name=price]").value;
-        const cakeImage = ev.target.querySelector("input[name=image]").value;
-        const cakeUnit = ev.target.querySelector("select[name=unit]").value;
-        const cakeDesc = ev.target.querySelector("textarea").value;
-        const cakeGroupId = ev.target.querySelector("input[name=group_id]").value;
-        const cakeTypeId = ev.target.querySelector("select[name=type_id]").value;
-        const res = await fetch("/cake", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: cakeName,
-            price: cakePrice,
-            image: cakeImage,
-            unit: cakeUnit,
-            description: cakeDesc,
-            group_id: cakeGroupId,
-            type_id: cakeTypeId,
-          })
-        })
-
-        const data = await res.json()
-        if (data.success) {
-          ev.target.querySelector(".cake-add-close-btn").dispatchEvent(new Event("click"));
-          alert("Thêm sản phẩm thành công");
-          location.reload();
-        } else {
-          alert("Thêm sản phẩm thất bại");
-        }
-      }
-    }
-  })
-
-  const closeCakeAddBtns = document.querySelectorAll(".cake-add-container .cake-add-close-btn");
-
-  closeCakeAddBtns.forEach(btn => btn.onclick = (e) => {
-    e.target.parentNode.parentNode.classList.remove("active");
-  })
+  // const removeBtns = document.querySelectorAll(".cart-delete-btn");
+  // removeBtns.forEach(btn => {
+  //   btn.onclick = async (e) => {
+  //     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
+  //       const res = await fetch(`/cake/${e.target.parentNode.parentNode.id}`, {
+  //         method: "DELETE"
+  //       })
+  //
+  //       const data = await res.json();
+  //       if (data.success) {
+  //         let curData = localStorage.getItem("cakes")
+  //         if (curData) {
+  //           curData = JSON.parse(curData);
+  //           if (data.cake.group_id.trim() === "G001") {
+  //             curData.sweetCakes = curData.sweetCakes.filter(cake => cake.cake_id.trim() !== data.cake.cake_id.trim())
+  //
+  //           } else if (data.cake.group_id.trim() === "G002") {
+  //             curData.saltCakes = curData.saltCakes.filter(cake => cake.cake_id.trim() !== data.cake.cake_id.trim())
+  //           } else {
+  //             curData.breads = curData.breads.filter(cake => cake.cake_id.trim() !== data.cake.cake_id.trim())
+  //           }
+  //           localStorage.setItem("cakes", JSON.stringify(curData));
+  //         }
+  //         alert("Xóa sản phẩm thành công");
+  //         location.reload();
+  //       }
+  //     }
+  //   }
+  // })
+  //
+  // const cakeAddBtns = document.querySelectorAll(".cake-add");
+  // cakeAddBtns.forEach(btn => {
+  //   btn.onclick = async (e) => {
+  //     e.preventDefault();
+  //     console.log(e.target.parentNode.querySelectorAll("form"))
+  //     e.target.parentNode.querySelector(".cake-add-formContainer").classList.add("active");
+  //     e.target.parentNode.querySelector("form").onsubmit = async (ev) => {
+  //       ev.preventDefault();
+  //       const cakeName = ev.target.querySelector("input[name=name]").value;
+  //       const cakePrice = ev.target.querySelector("input[name=price]").value;
+  //       const cakeImage = ev.target.querySelector("input[name=image]").value;
+  //       const cakeUnit = ev.target.querySelector("select[name=unit]").value;
+  //       const cakeDesc = ev.target.querySelector("textarea").value;
+  //       const cakeGroupId = ev.target.querySelector("input[name=group_id]").value;
+  //       const cakeTypeId = ev.target.querySelector("select[name=type_id]").value;
+  //       const res = await fetch("/cake", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           name: cakeName,
+  //           price: cakePrice,
+  //           image: cakeImage,
+  //           unit: cakeUnit,
+  //           description: cakeDesc,
+  //           group_id: cakeGroupId,
+  //           type_id: cakeTypeId,
+  //         })
+  //       })
+  //
+  //       const data = await res.json()
+  //       if (data.success) {
+  //         let curData = localStorage.getItem("cakes");
+  //         if (curData) {
+  //           curData = JSON.parse(curData)
+  //           if (cakeGroupId.trim() === "G001") {
+  //             curData.sweetCakes.push(data.cake);
+  //           } else if (cakeGroupId.trim() === "G002") {
+  //             curData.saltCakes.push(data.cake);
+  //           } else {
+  //             curData.breads.push(data.cake);
+  //           }
+  //           localStorage.setItem("cakes", JSON.stringify(curData));
+  //           ev.target.querySelector(".cake-add-close-btn").dispatchEvent(new Event("click"));
+  //         }
+  //         alert("Thêm sản phẩm thành công");
+  //         location.reload();
+  //
+  //       } else {
+  //         alert("Thêm sản phẩm thất bại");
+  //       }
+  //     }
+  //   }
+  // })
+  //
+  // const closeCakeAddBtns = document.querySelectorAll(".cake-add-container .cake-add-close-btn");
+  //
+  // closeCakeAddBtns.forEach(btn => btn.onclick = (e) => {
+  //   e.target.parentNode.parentNode.classList.remove("active");
+  // })
 
 
   // Tạo list sản phẩm
@@ -179,79 +237,80 @@ window.onload = async () => {
 
 
   // Load dữ liệu cho giỏ hàng
-  loadCartProduct();
+  // loadCartProduct();
 
   if (isAdmin) {
 
+    loadCakeBtns(allCakes);
 
-    const editBtns = document.querySelectorAll(".cart-edit-btn");
-    editBtns.forEach(btn => {
-      btn.onclick = async (e) => {
-        const curId = e.target.parentNode.parentNode.id;
-        console.log(curId)
-        document.querySelector(`.cake-card#${curId} .cake-add-formContainer`).classList.add("active");
-        const response = await fetch(`/cake/${curId}`);
-        const cake = await response.json();
+    // const editBtns = document.querySelectorAll(".cart-edit-btn");
+    // editBtns.forEach(btn => {
+    //   btn.onclick = async (e) => {
+    //     const curId = e.target.parentNode.parentNode.id;
+    //     document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer`).classList.add("active");
+    //     const response = await fetch(`/cake/${curId}`);
+    //     const cake = await response.json();
+    //
+    //     const cakeEditName = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=name]`);
+    //     const cakeEditPrice = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=price]`);
+    //     const cakeEditImage = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=image]`);
+    //     const cakeEditUnit = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer select[name=unit]`);
+    //     const cakeEditDesc = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer textarea`);
+    //     const cakeEditGroupId = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=group_id]`);
+    //     const cakeEditTypeId = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=type_id]`);
+    //
+    //     const cakeEditForm = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer.edit .cake-add-form`);
+    //
+    //     cakeEditForm.onsubmit = async (event) => {
+    //       event.preventDefault();
+    //       const response = await fetch(`/cake/${curId}`, {
+    //         method: "PUT",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //           name: cakeEditName.value,
+    //           price: cakeEditPrice.value,
+    //           image: cakeEditImage.value,
+    //           unit: cakeEditUnit.value,
+    //           group_id: cakeEditGroupId.value,
+    //           type_id: cakeEditTypeId.value,
+    //           cake_id: curId,
+    //           description: cakeEditDesc.value
+    //         })
+    //       })
+    //       const result = await response.json();
+    //       if (result.success) {
+    //         alert("Cập nhật thành công");
+    //         document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer`).classList.remove("active");
+    //         await reloadCakes();
+    //
+    //         location.reload();
+    //       } else {
+    //         alert("Cập nhật thất bại");
+    //       }
+    //     }
+    //
+    //
+    //
+    //     cakeEditName.value = cake.name;
+    //     cakeEditPrice.value = cake.price;
+    //     cakeEditImage.value = cake.image;
+    //     cakeEditUnit.value = cake.unit;
+    //     cakeEditName.focus();
+    //     cakeEditPrice.focus();
+    //     cakeEditImage.focus();
+    //     cakeEditUnit.focus();
+    //
+    //
+    //
+    //     const closeCakeEditBtn = document.querySelector(`.cake-card[id='${curId}'] .cake-add-close-btn`)
+    //     closeCakeEditBtn.onclick = (e) => {
+    //       document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer`).classList.remove("active");
+    //     }
+    //   }
+    // })
 
-        const cakeEditName = document.querySelector(`.cake-card#${curId} .cake-add-formContainer input[name=name]`);
-        const cakeEditPrice = document.querySelector(`.cake-card#${curId} .cake-add-formContainer input[name=price]`);
-        const cakeEditImage = document.querySelector(`.cake-card#${curId} .cake-add-formContainer input[name=image]`);
-        const cakeEditUnit = document.querySelector(`.cake-card#${curId} .cake-add-formContainer select[name=unit]`);
-        const cakeEditDesc = document.querySelector(`.cake-card#${curId} .cake-add-formContainer textarea`);
-        const cakeEditGroupId = document.querySelector(`.cake-card#${curId} .cake-add-formContainer input[name=group_id]`);
-        const cakeEditTypeId = document.querySelector(`.cake-card#${curId} .cake-add-formContainer input[name=type_id]`);
-
-        const cakeEditForm = document.querySelector(`.cake-card#${curId} .cake-add-formContainer.edit .cake-add-form`);
-
-        cakeEditForm.onsubmit = async (event) => {
-          event.preventDefault();
-          const response = await fetch(`/cake/${curId}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: cakeEditName.value,
-              price: cakeEditPrice.value,
-              image: cakeEditImage.value,
-              unit: cakeEditUnit.value,
-              group_id: cakeEditGroupId.value,
-              type_id: cakeEditTypeId.value,
-              cake_id: curId,
-              description: cakeEditDesc.value
-            })
-          })
-          const result = await response.json();
-          if (result.success) {
-            alert("Cập nhật thành công");
-            document.querySelector(`.cake-card#${curId} .cake-add-formContainer`).classList.remove("active");
-            await reloadCakes();
-
-            location.reload();
-          } else {
-            alert("Cập nhật thất bại");
-          }
-        }
-
-
-
-        cakeEditName.value = cake.name;
-        cakeEditPrice.value = cake.price;
-        cakeEditImage.value = cake.image;
-        cakeEditUnit.value = cake.unit;
-        cakeEditName.focus();
-        cakeEditPrice.focus();
-        cakeEditImage.focus();
-        cakeEditUnit.focus();
-
-
-
-        const closeCakeEditBtn = document.querySelector(`.cake-card#${curId} .cake-add-close-btn`)
-        closeCakeEditBtn.onclick = (e) => {
-          document.querySelector(`.cake-card#${curId} .cake-add-formContainer`).classList.remove("active");
-        }
-      }
-    })
 
     const addForm = document.querySelector(".cake-add-formContainer.add .cake-add-form");
     addForm.onsubmit = async (event) => {
@@ -299,6 +358,7 @@ function createCartList(allCakes) {
   const cartAddBtns = document.querySelectorAll('.cart-btn');
   cartAddBtns.forEach(btn => {
     btn.onclick = (e) => {
+      e.preventDefault();
       const { cake_id, name, price, image } = allCakes.find(cake => cake.cake_id === e.target.parentNode.id);
       const localCart = JSON.parse(localStorage.getItem("cart"));
 
@@ -337,10 +397,11 @@ function loadCartProduct() {
   const localCart = JSON.parse(localStorage.getItem("cart"));
   calculateTotalPrice();
   document.querySelectorAll(".cart-product").forEach(prod => {
-    const decr = document.querySelector(`#${prod.id} .quantity-decr-btn`)
-    const incr = document.querySelector(`#${prod.id} .quantity-incr-btn`)
-    const quantity = document.querySelector(`#${prod.id} .quantity-value`)
-    const sum = document.querySelector(`#${prod.id} .sum-value`)
+
+    const decr = document.querySelector(`[id='${prod.id}'] .quantity-decr-btn`)
+    const incr = document.querySelector(`[id='${prod.id}'] .quantity-incr-btn`)
+    const quantity = document.querySelector(`[id='${prod.id}'] .quantity-value`)
+    const sum = document.querySelector(`[id='${prod.id}'] .sum-value`)
     const product = localCart.find(product => product.cake_id === prod.id);
 
 
@@ -380,6 +441,7 @@ function checkCartInCache() {
       node.classList.add("hasProduct");
       node.innerHTML = JSON.parse(cart).length;
     })
+    loadCartProduct();
   }
 }
 
@@ -484,14 +546,230 @@ function checkUser() {
 
 }
 
+
+function cakeDeleteBtns() {
+  const removeBtns = document.querySelectorAll(".cart-delete-btn");
+  removeBtns.forEach(btn => {
+    btn.onclick = async (e) => {
+      if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
+        const res = await fetch(`/cake/${e.target.parentNode.parentNode.id}`, {
+          method: "DELETE"
+        })
+
+        const data = await res.json();
+        if (data.success) {
+          let curData = localStorage.getItem("cakes")
+          if (curData) {
+            curData = JSON.parse(curData);
+            if (data.cake.group_id.trim() === "G001") {
+              curData.sweetCakes = curData.sweetCakes.filter(cake => cake.cake_id.trim() !== data.cake.cake_id.trim())
+
+            } else if (data.cake.group_id.trim() === "G002") {
+              curData.saltCakes = curData.saltCakes.filter(cake => cake.cake_id.trim() !== data.cake.cake_id.trim())
+            } else {
+              curData.breads = curData.breads.filter(cake => cake.cake_id.trim() !== data.cake.cake_id.trim())
+            }
+            localStorage.setItem("cakes", JSON.stringify(curData));
+          }
+          alert("Xóa sản phẩm thành công");
+          // location.reload();
+          reloadCakes(curData.sweetCakes, curData.saltCakes, curData.breads, isAdmin);
+        }
+      }
+    }
+  })
+
+}
+
+
+function cakeAddBtns() {
+  const cakeAddBtns = document.querySelectorAll(".cake-add");
+  cakeAddBtns.forEach(btn => {
+    btn.onclick = async (e) => {
+      e.preventDefault();
+      console.log(e.target.parentNode.querySelectorAll("form"))
+      e.target.parentNode.querySelector(".cake-add-formContainer").classList.add("active");
+      e.target.parentNode.querySelector("form").onsubmit = async (ev) => {
+        ev.preventDefault();
+        const cakeName = ev.target.querySelector("input[name=name]").value;
+        const cakePrice = ev.target.querySelector("input[name=price]").value;
+        const cakeImage = ev.target.querySelector("input[name=image]").value;
+        const cakeUnit = ev.target.querySelector("select[name=unit]").value;
+        const cakeDesc = ev.target.querySelector("textarea").value;
+        const cakeGroupId = ev.target.querySelector("input[name=group_id]").value;
+        const cakeTypeId = ev.target.querySelector("select[name=type_id]").value;
+        const res = await fetch("/cake", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: cakeName,
+            price: cakePrice,
+            image: cakeImage,
+            unit: cakeUnit,
+            description: cakeDesc,
+            group_id: cakeGroupId,
+            type_id: cakeTypeId,
+          })
+        })
+
+        const data = await res.json()
+        if (data.success) {
+          let curData = localStorage.getItem("cakes");
+          if (curData) {
+            curData = JSON.parse(curData)
+            if (cakeGroupId.trim() === "G001") {
+              curData.sweetCakes.push(data.cake);
+            } else if (cakeGroupId.trim() === "G002") {
+              curData.saltCakes.push(data.cake);
+            } else {
+              curData.breads.push(data.cake);
+            }
+            localStorage.setItem("cakes", JSON.stringify(curData));
+            ev.target.querySelector(".cake-add-close-btn").dispatchEvent(new Event("click"));
+          }
+          alert("Thêm sản phẩm thành công");
+          location.reload();
+
+        } else {
+          alert("Thêm sản phẩm thất bại");
+        }
+      }
+    }
+  })
+  const closeCakeAddBtns = document.querySelectorAll(".cake-add-container .cake-add-close-btn");
+
+  closeCakeAddBtns.forEach(btn => btn.onclick = (e) => {
+    e.target.parentNode.parentNode.classList.remove("active");
+  })
+
+}
+
+
+function cakeAddForm() {
+  const addForm = document.querySelector(".cake-add-formContainer.add .cake-add-form");
+  addForm.onsubmit = async (event) => {
+    event.preventDefault();
+    const cakeAddName = document.querySelector(".cake-add-formContainer.add input[name=name]");
+    const cakeAddPrice = document.querySelector(".cake-add-formContainer.add input[name=price]");
+    const cakeAddImage = document.querySelector(".cake-add-formContainer.add input[name=image]");
+    const cakeAddUnit = document.querySelector(".cake-add-formContainer.add select[name=unit]");
+    const cakeAddDesc = document.querySelector(".cake-add-formContainer.add textarea");
+    const cakeAddGroupId = document.querySelector(".cake-add-formContainer.add input[name=group_id]");
+    const cakeAddTypeId = document.querySelector(".cake-add-formContainer.add input[name=type_id]");
+
+    const response = await fetch("/cake", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: cakeAddName.value,
+        price: cakeAddPrice.value,
+        image: cakeAddImage.value,
+        unit: cakeAddUnit.value,
+        group_id: cakeAddGroupId.value,
+        type_id: cakeAddTypeId.value,
+        description: cakeAddDesc.value
+      })
+    })
+    const result = await response.json();
+    if (result.success) {
+      alert("Thêm thành công");
+      document.querySelector(".cake-add-formContainer.add").classList.remove("active");
+      location.reload();
+    } else {
+      alert("Thêm thất bại");
+    }
+  }
+}
+
+function cakeEditBtns() {
+  const editBtns = document.querySelectorAll(".cart-edit-btn");
+  editBtns.forEach(btn => {
+    btn.onclick = async (e) => {
+      const curId = e.target.parentNode.parentNode.id;
+      document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer`).classList.add("active");
+      const response = await fetch(`/cake/${curId}`);
+      const cake = await response.json();
+
+      const cakeEditName = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=name]`);
+      const cakeEditPrice = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=price]`);
+      const cakeEditImage = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=image]`);
+      const cakeEditUnit = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer select[name=unit]`);
+      const cakeEditDesc = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer textarea`);
+      const cakeEditGroupId = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=group_id]`);
+      const cakeEditTypeId = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer input[name=type_id]`);
+
+      const cakeEditForm = document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer.edit .cake-add-form`);
+
+      cakeEditForm.onsubmit = async (event) => {
+        event.preventDefault();
+        const response = await fetch(`/cake/${curId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: cakeEditName.value,
+            price: cakeEditPrice.value,
+            image: cakeEditImage.value,
+            unit: cakeEditUnit.value,
+            group_id: cakeEditGroupId.value,
+            type_id: cakeEditTypeId.value,
+            cake_id: curId,
+            description: cakeEditDesc.value
+          })
+        })
+        const result = await response.json();
+        if (result.success) {
+          alert("Cập nhật thành công");
+          document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer`).classList.remove("active");
+          await reloadCakes();
+
+          location.reload();
+        } else {
+          alert("Cập nhật thất bại");
+        }
+      }
+
+
+
+      cakeEditName.value = cake.name;
+      cakeEditPrice.value = cake.price;
+      cakeEditImage.value = cake.image;
+      cakeEditUnit.value = cake.unit;
+      cakeEditName.focus();
+      cakeEditPrice.focus();
+      cakeEditImage.focus();
+      cakeEditUnit.focus();
+
+
+
+      const closeCakeEditBtn = document.querySelector(`.cake-card[id='${curId}'] .cake-add-close-btn`)
+      closeCakeEditBtn.onclick = (e) => {
+        document.querySelector(`.cake-card[id='${curId}'] .cake-add-formContainer`).classList.remove("active");
+      }
+    }
+  })
+
+}
+
+
+function loadCakeBtns(allCakes) {
+  createCartList(allCakes);
+  cakeDeleteBtns();
+  cakeEditBtns();
+  cakeAddBtns();
+}
+
 async function cakeForUser(cakes, isAdmin, cakeType) {
   const cakeWrapper = document.querySelector(`.wrapper.${cakeType}`);
-  console.log("cakes", cakes);
   cakeWrapper.innerHTML = "";
   let res = await fetch("/allType");
   let allTypes = (await res.json()).types;
-  let currentGroupTypes = allTypes.filter(type => type.group_id === cakes[0].group_id);
-
+  let currentGroupTypes = allTypes.filter(type => type.group_id === cakeWrapper.id);
   let cakeAddForm = isAdmin ? `        <div class="cake-add-formContainer add">
           <form class="cake-add-form">
             <div class="cake-add-close-btn"><i style="pointer-events: none" class="fa-solid fa-xmark"></i></div>
@@ -528,7 +806,7 @@ async function cakeForUser(cakes, isAdmin, cakeType) {
             </div>
             <div class="cake-add-form-input">
               <input type="text" id="cake-type" disabled  placeholder="${cakeWrapper.getAttribute("data-type")}">
-              <input type="hidden" name="group_id" value="${cakes[0].group_id} "/>
+              <input type="hidden" name="group_id" value="${cakeWrapper.id} "/>
             </div>
             <button>Submit</button>
           </form>
@@ -539,6 +817,7 @@ async function cakeForUser(cakes, isAdmin, cakeType) {
   // <input type="hidden" name="type_id" value="${cake.type_id}"/>
 
   // cakeWrapper.innerHTML = cakeAddForm;
+  console.log(cakes);
   cakes.forEach(cake => {
     cakeWrapper.innerHTML += `
         <!-- Item 1 -->
@@ -604,6 +883,11 @@ async function cakeForUser(cakes, isAdmin, cakeType) {
           <div class="cake-add-text">Thêm bánh</div>
         </div>
       `
+  loadCakeBtns();
+
+
+
+
 
   return document.querySelectorAll(".cake-add")
 }
