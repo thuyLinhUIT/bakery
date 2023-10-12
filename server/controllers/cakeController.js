@@ -1,4 +1,6 @@
 const Cake = require("../models").cakes;
+const Group = require("../models").groups;
+const Type = require("../models").types;
 const { createCakeValidation } = require("../validations/auth.js");
 
 exports.getAll = (req, res) => {
@@ -20,7 +22,18 @@ exports.getCakeByGroupId = (req, res) => {
 }
 
 exports.getCakeById = (req, res) => {
-  Cake.findByPk(req.params.id).then((cake) => {
+  Cake.findByPk(req.params.id, {
+    include: [
+      {
+        model: Group,
+        attributes: ["group_name"],
+      },
+      {
+        model: Type,
+        attributes: ["type_name"],
+      }
+    ]
+  }).then((cake) => {
     if (cake) res.status(200).json(cake);
     else
       res.status(404).json({
@@ -106,17 +119,18 @@ exports.updateCake = (req, res) => {
     unit: req.body.unit
   };
 
-  Cake.update(cake, {
+  Cake.findByPk(cakeId).then(result => Cake.update(cake, {
     where: { cake_id: cakeId, group_id: req.body.group_id, type_id: req.body.type_id },
   })
     .then((num) => {
       if (num == 1)
-        res.json({
+        res.status(200).json({
           success: true,
           message: "Cake updated successfully",
+          cake: cake
         });
       else
-        res.json({
+        res.status(400).json({
           success: false,
           message: "Cake not found with id = " + cakeId,
         });
@@ -127,7 +141,7 @@ exports.updateCake = (req, res) => {
         message: "Error updating cake with id = " + cakeId,
         err: err.message,
       });
-    });
-  console.log(req.body)
+    }));
 
 };
+

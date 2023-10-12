@@ -276,7 +276,7 @@ h2 {
   position: relative;
 }
 
-.cake-add-form-input label:not(#cake-unit-label) {
+.cake-add-form-input label:not(#cake-unit-label, #cake-type-label) {
   position: absolute;
   top: 50%;
   left: 2rem;
