@@ -14,3 +14,10 @@ Vào trong file DoAn/server/models/index.js sẽ có đoạn ConnectionString nh
 
 - Sau khi chạy hoàn tất thì chạy lệnh "npm start" và vào đường dẫn   --->       localhost:3000 (yêu cầu có cơ sở dữ liệu)
 
+
+--------- Thành viên nhóm --------
+Trương Quang Đạt
+Lê Ngọc Hân
+Dương Bảo Minh
+Đinh Hoàng Thùy Linh
+
